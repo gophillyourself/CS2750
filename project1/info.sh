@@ -11,7 +11,7 @@ usage() {
     echo "[-h|--help] : display this message"
 }
 
-if [ "$#" != "4" ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then 
+if [[ "$#" != "4" ]] || [[ "$1" = "-h" ]] || [[ "$1" = "--help" ]]; then
     usage
     exit 1
 fi
@@ -49,7 +49,7 @@ pwd
 #	The name of UNIX machine;
 hostname
 #	The name of login shell;
-
+echo $SHELL
 if [ -f "$file" ]; then
     #	Contents of the required file;
     cat $file
@@ -65,6 +65,8 @@ echo $#
 #	Calendar for October of the current year;
 cal -m 10
 #	Disk usage;
+df -h
 #	Current number of users in the system;
+w | wc -l
 #	Current time.
 date +%r
