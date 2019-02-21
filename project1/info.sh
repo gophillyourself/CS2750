@@ -1,7 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Phillip Janowski
 # CS2750
 # info.sh
+# displays a bunch of stuff
 
 #	“Usage” message (what should be typed to execute your file);
 usage() {
@@ -11,6 +12,7 @@ usage() {
     echo "[-h|--help] : display this message"
 }
 
+# checking number of arguments or if the argument is for help, then exiting
 if [[ "$#" != "4" ]] || [[ "$1" = "-h" ]] || [[ "$1" = "--help" ]]; then
     usage
     exit 1
