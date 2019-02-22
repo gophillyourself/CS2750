@@ -2,7 +2,7 @@
 # Phillip Janowski
 # CS2750
 # factor.sh
-# finds the smallest factor of a number inputted as the argument
+# finds the smallest factor of a number inputted as the argument or tell if it is prime
 
 usage() {
     echo "usage: " $0 " requires the following argument with the following stipulations"
