@@ -23,11 +23,13 @@ do
 done
 
 
+# checking length of string array name just to make sure there is a name
 if [[ ${#name[@]} = 0 ]]; then
     usage
     exit 1
 fi
 
+# for counting the number of tests that will be averaged
 count=0
 while [[ $# != 0 ]]
 do
@@ -40,6 +42,7 @@ do
     shift
 done
 
+# makes sure there are numbers to be averaged
 if [[ $count = 0 ]]; then
     usage
     exit 1
@@ -48,6 +51,7 @@ fi
 average=$(($total / $count))
 echo Average "$average"
 
+# checking average then displaying proper message 
 if [[ $average -lt 70 ]]; then 
     echo Sorry "$name" but you will have to retake the class!
 else 
