@@ -52,16 +52,28 @@ pwd
 hostname
 #	The name of login shell;
 echo $SHELL
+
+# checks that the file exists
 if [ -f "$file" ]; then
     #	Contents of the required file;
-    cat $file
+    echo "Contents of $file {"
+    cat ${file}
+    echo "}"
     #	Number of text lines in the file;
-    wc -l $file
+    echo "Number of lines in $file"
+    wc -l ${file}
 else 
     echo "$file doesn't exist"
 fi
 #	Listing of the required directory;
-ls $path
+# checks that path exists
+if [ -p "$path" ]; then
+    echo "Listing of $path {"
+    ls $path
+    echo "}"
+else
+    echo "Path does not exist"
+fi
 #	Total number of parameters of the script;
 echo $#
 #	Calendar for October of the current year;

@@ -20,27 +20,27 @@ fi
 # getting the number into the $1 slot
 shift
 #checking number is in the right range
-if [[ $1 -gt 100 ]] || [[ $1 -lt 10 ]]; then
+if ! [[ $1 =~ ^[0-9]+$ ]] || [[ $1 -gt 100 ]] || [[ $1 -lt 10 ]]; then
     usage
     exit 1
 fi
 
 #initializing things for while loop
 lowestNumber=$(($1 / 2))
-currentNumber=$lowestNumber
+currentNumber=${lowestNumber}
 moddedNumber=$(($1 % $lowestNumber))
 while [[ "$currentNumber" -gt 1 ]] 
 do
     # checking for perfect divisibility for every number 
     moddedNumber=$(($1 % $currentNumber))
-    if [[ $moddedNumber = 0 ]]; then
-        lowestNumber=$currentNumber
+    if [[ ${moddedNumber} = 0 ]]; then
+        lowestNumber=${currentNumber}
     fi
     currentNumber=$(( $currentNumber - 1 ))
 done
 # checking that the lowest number isn't the name as the one we calculated in the initialization
-if [[ $lowestNumber = $(($1 / 2)) ]]; then 
+if [[ ${lowestNumber} = $(($1 / 2)) ]]; then
     echo "This number is prime"
 else
-    echo $lowestNumber
+    echo ${lowestNumber}
 fi
