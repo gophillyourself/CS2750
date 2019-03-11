@@ -9,9 +9,40 @@ usage() {
   echo "[-h|--help] : display this message"
 
 }
-if [[ "$#" != '1' ]] || [[ "$1" = "-h" ]] || { ! [[  -p "$1" ]] && ! [[ -d "$1" ]]; }; then
+
+# null out EmptyDir
+
+truncate -s 0 EmptyDir.txt
+
+checkDir() {
+  directory=$1
+  notEmpty=false
+  # if anything exists in the current directory
+  if [[ "$(ls -A $directory)" ]]; then
+    #  for every sub file or directory in the current direcotry
+    for sub in $directory/*; do
+      # if the current path is a file then output the name
+      if [[ -f $sub ]]; then
+        echo $sub
+        # mark the file as not empty
+        notEmpty=true
+      # else call the checkDir function again
+      else
+        checkDir $sub
+        # if the current path is empty put it at the bottom of empty dir
+        if [[ "$notEmpty"=false ]]; then
+          echo $sub >> EmptyDir.txt
+        fi
+      fi
+    done
+  fi
+}
+
+directory=$1
+
+if [[ "$#" != '1' ]] || [[ "$directory" = "-h" ]] || { ! [[  -p "$directory" ]] && ! [[ -d "$directory" ]]; }; then
   usage
   exit 1
 fi
 
-ls -l $1 | sed -n 's/[^d].* //p'
+checkDir $directory
