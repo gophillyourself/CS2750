@@ -1,0 +1,9 @@
+talk
+tell
+dot
+2dog
+3Dog
+
+
+4do
+  dogoo,calculates
