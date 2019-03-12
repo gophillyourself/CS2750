@@ -1,3 +1,0 @@
-testDir/anothaone/anotheremptyone
-testDir/anothaone/anotherfile
-testDir/anothertestdir

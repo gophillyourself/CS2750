@@ -7,18 +7,14 @@
 usage() {
   echo "usage: " $0 " requires an existing path to a directory or a directory in the relative path"
   echo "[-h|--help] : display this message"
-
 }
-
-# null out EmptyDir
-
-truncate -s 0 EmptyDir.txt
 
 checkDir() {
   directory=$1
   notEmpty=false
   # if anything exists in the current directory
   if [[ "$(ls -A $directory)" ]]; then
+    echo Files in subdirectors of $1
     #  for every sub file or directory in the current direcotry
     for sub in $directory/*; do
       # if the current path is a file then output the name
@@ -45,4 +41,11 @@ if [[ "$#" != '1' ]] || [[ "$directory" = "-h" ]] || { ! [[  -p "$directory" ]] 
   exit 1
 fi
 
+# null out EmptyDir
+truncate -s 0 EmptyDir.txt
+
 checkDir $directory
+
+# showing contents of EmptyDirs
+echo Empty Subdirectors of $1
+cat EmptyDir.txt
