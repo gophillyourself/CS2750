@@ -1,0 +1,5 @@
+'s/[Mm][Ww][Hh]/MRH/g'
+'/*.jpg/g'
+'s/(*.jpg)/.jpeg/g'
+-n '/^[^a]*[^.html]$/p' 
+'
