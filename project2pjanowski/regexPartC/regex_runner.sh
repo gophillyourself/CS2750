@@ -12,8 +12,6 @@ while read -r regex; do
 			echo "---------------"
 			echo "$regex"
 			echo sed "$regex" "$inputFile"
-			sed "$regex" "$inputFile"
+			sed -n "$regex" "$inputFile"
 	fi
-
-
 done < "$regexFile"
