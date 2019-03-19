@@ -1,5 +1,6 @@
-'s/[Mm][Ww][Hh]/MRH/g'
-'/*.jpg/g'
-'s/(*.jpg)/.jpeg/g'
--n '/^[^a]*[^.html]$/p' 
-'
+s/[Mm][Ww][Hh]/MRH/g
+/*.jpg/g
+s/(*.jpg)/\1.jpeg/g
+/^[^a]*[^.html]$/p 
+
+s/([0-9]{3})-([0-9]{7})/(\1)\2/
