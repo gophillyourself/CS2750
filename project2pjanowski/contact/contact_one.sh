@@ -10,7 +10,15 @@ usage() {
   echo "[-h|--help] : display this message"
 }
 
-contacts=myContacts.txt
+# here file
+cat << 'EOF' > myContacts
+Phillip
+phill
+
+notme
+asdf
+EOF
+
 
 if [[ "$#" != '1' ]] || [[ "$regex" = "-h" ]]; then
   usage
@@ -19,13 +27,13 @@ fi
 
 regex=$1
 matched="false"
-while read -r contact ; do
 
+while read -r contact ; do
   if echo $contact | grep "$regex" ; then
     matched="true"
   fi
-done < "$contacts"
+done < myContacts
 
 if [[ "$matched" = "false" ]]; then
-  echo No matches in "$contacts"
+  echo No matches in myContacts
 fi
