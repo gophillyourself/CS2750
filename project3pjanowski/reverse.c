@@ -6,35 +6,54 @@ const int MAX_CHAR_ARRAY_SIZE = 100;
 
 int main(int argc, char *argv[]) {
 
-  printf("%d\n", argc);
+  //checking that there is atleast one arg
   if(argc <= 1 ){
     printf("%s", usage);
     return 1;
   }
 
+  //inializing the arrays that will be copied to
   char largest[MAX_CHAR_ARRAY_SIZE];
   char smallest[MAX_CHAR_ARRAY_SIZE];
-  strncmp(largest, argv[1], MAX_CHAR_ARRAY_SIZE);
-  strncmp(smallest, argv[1], MAX_CHAR_ARRAY_SIZE);
+  strncpy(largest, argv[1], MAX_CHAR_ARRAY_SIZE);
+  strncpy(smallest, argv[1], MAX_CHAR_ARRAY_SIZE);
+
+  //loop over argv and print the contents starting at the end of the array
+  for(int i = 1; i < argc; i++) {
+    printf("%s ", argv[argc - i]);
+  }
+  //start the new line
+  printf("\n");
 
   for(int i = 1; i < argc; i++) {
-    printf("%s\n", argv[argc - i]);
-  }
 
-  for(int i = 0; i < argc; i++) {
+    // set current array
     char current[MAX_CHAR_ARRAY_SIZE];
     strncpy(current, argv[i], MAX_CHAR_ARRAY_SIZE);
-    if(strcmp(current, largest) > 0) {
-      if(strcmp(largest, smallest) < 0) {
-        strncpy(smallest, largest, MAX_CHAR_ARRAY_SIZE);
-      }
-      strncpy(current, largest, MAX_CHAR_ARRAY_SIZE);
-    } else {
-      if(strcmp(largest, smallest) < 0) {
-        strncpy(smallest, largest, MAX_CHAR_ARRAY_SIZE);
-      }
-      strncpy(current, largest, MAX_CHAR_ARRAY_SIZE);
+
+    // Debugging artifacts
+    // printf("largest %s\n", largest);
+    // printf("smallest %s\n", smallest);
+    // printf("curent %s\n", current);
+
+    // compare the largest and the smallest to current
+    // if the comp is greater than zero that means current is larger than its other parameter
+    int largeComp = strncmp(current, largest, MAX_CHAR_ARRAY_SIZE);
+    int smallComp = strncmp(current, smallest, MAX_CHAR_ARRAY_SIZE);
+    // printf("largeComp %d\n", largeComp);
+    // printf("smallComp %d\n", smallComp);
+
+    if(largeComp >= 0) {
+
+      //copy current to largest if the comp is greater than or equal
+      strncpy(largest, current, MAX_CHAR_ARRAY_SIZE);
+      // printf("%s is now the largest\n", largest);
+    } else if(smallComp < 0) {
+      //copy current to smallest if the comp is less than
+      strncpy(smallest, current, MAX_CHAR_ARRAY_SIZE);
+      // printf("%s is now the largst\n", smallest);
     }
+    printf("\n");
   }
 
   printf("The largest argument is %s\n", largest);
