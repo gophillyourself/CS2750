@@ -1,8 +1,13 @@
+// Phillip Janowski
+// CS2750 Project 3
+// Takes in 1 one more arguments, then prints them in reverse
+// Then prints which one is the largest and which one is the smallest lexigraphcially
+
 #include <stdio.h>
 #include <string.h>
 
 char usage[] = "Must provide at least one argument of max size 100 for the program\n-h: to display this message";
-const int MAX_CHAR_ARRAY_SIZE = 100;
+int MAX_CHAR_ARRAY_SIZE = 0;
 
 int main(int argc, char *argv[]) {
 
@@ -12,18 +17,23 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  //loop over argv and print the contents starting at the end of the array
+  for(int i = 1; i < argc; i++) {
+    printf("%s ", argv[argc - i]);
+    int argLen = strlen(argv[argc - i]);
+    if(argLen > MAX_CHAR_ARRAY_SIZE) {
+      MAX_CHAR_ARRAY_SIZE = argLen;
+    }
+  }
+  //start the new line
+  printf("\n");
+
   //inializing the arrays that will be copied to
   char largest[MAX_CHAR_ARRAY_SIZE];
   char smallest[MAX_CHAR_ARRAY_SIZE];
   strncpy(largest, argv[1], MAX_CHAR_ARRAY_SIZE);
   strncpy(smallest, argv[1], MAX_CHAR_ARRAY_SIZE);
 
-  //loop over argv and print the contents starting at the end of the array
-  for(int i = 1; i < argc; i++) {
-    printf("%s ", argv[argc - i]);
-  }
-  //start the new line
-  printf("\n");
 
   for(int i = 1; i < argc; i++) {
 
@@ -53,7 +63,6 @@ int main(int argc, char *argv[]) {
       strncpy(smallest, current, MAX_CHAR_ARRAY_SIZE);
       // printf("%s is now the largst\n", smallest);
     }
-    printf("\n");
   }
 
   printf("The largest argument is %s\n", largest);
