@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <unistd.h>
-
-struct Stack stack;
+#include <string.h>
+#include <stdlib.h>
 
 char usage[] = "Must provide at least one argument of max size 100 for the program\n-h: to display this message-";
 void printUsage() {
@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
     int o;
     char inputName[100];
     char outputName[100];
-    while(( o = getopt (argc, argv, "hio:")) != -1) {
+    while(( o = getopt (argc, argv, "i:o:h::")) != -1) {
         switch (o) {
             case 'h':
                 printUsage();
@@ -27,14 +27,12 @@ int main(int argc, char* argv[]) {
 
             case 'i':
                 usedI = true;
-                printf("%s", optarg);
-                strncpy(inputName, optarg, sizeof(optarg));
+                strncpy(inputName, optarg, 100);
                 break;
 
             case 'o':
                 usedO = true;
-                printf("%s", optarg);
-                strncpy(outputName, optarg, sizeof(optarg));
+                strncpy(outputName, optarg, 100);
                 break;
 
             case '?':
@@ -44,6 +42,22 @@ int main(int argc, char* argv[]) {
     if ( !(usedI && usedO)) {
         printUsage();
         return 1;
+    }
+    struct Stack *stack;
+    stack->top = 0;
+
+    FILE* input = fopen(inputName, "r");
+    FILE* output = fopen(outputName, "w");
+    char buff[255];
+
+    int in;
+    while (fscanf(input, " %d", &in) == 1) {
+        printf("%s\n", in);
+        push(stack, in);
+    }
+
+    while (stack->top > 0) {
+      printf("%d\n", pop(stack));
     }
 
     return 0;

@@ -1,5 +1,5 @@
 //
-// Created by Phill Janowski on 2019-04-18.
+// Created by Phill Janowski on 2019-04-18->
 //
 #include "stack.h"
 int pop(struct Stack* stack)  {
@@ -9,6 +9,6 @@ int pop(struct Stack* stack)  {
 }
 
 void push(struct Stack* stack, int pushee) {
-    stack->top = stack->top++;
     stack->stack[stack->top] = pushee;
+    stack->top = stack->top++;
 }
