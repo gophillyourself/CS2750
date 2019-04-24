@@ -5,12 +5,12 @@
 #ifndef CS2750_STACK_H
 #define CS2750_STACK_H
 
-struct Stack {
+typedef struct Stack {
     int top;
-    int stack[100];
-};
+    char *stack[100];
+} Stack;
 
-int pop(struct Stack* stack);
+char* pop(struct Stack* stack);
 
-void push(struct Stack* stack, int pushee);
+void push(struct Stack* stack, char *pushee);
 #endif //CS2750_STACK_H

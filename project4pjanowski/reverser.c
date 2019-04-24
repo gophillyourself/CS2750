@@ -39,25 +39,36 @@ int main(int argc, char* argv[]) {
                 return 1;
         }
     }
-    if ( !(usedI && usedO)) {
-        printUsage();
-        return 1;
-    }
-    struct Stack *stack;
-    stack->top = 0;
-
-    FILE* input = fopen(inputName, "r");
-    FILE* output = fopen(outputName, "w");
+    // if ( !(usedI && usedO)) {
+    //     printUsage();
+    //     return 1;
+    // }
+    Stack stack;
+    // stack->top = 0;
+    stack.top = 0;
+    FILE* inputStream;
+    FILE* output;
+    output = fopen(outputName, "w");
+    inputStream = fopen(inputName, "r");
+    // if (inputStream == NULL) {
+    //   perror("fopen()");
+    //   return EXIT_FAILURE;
+    // }
+    char in;
     char buff[255];
-
-    int in;
-    while (fscanf(input, " %d", &in) == 1) {
-        printf("%s\n", in);
-        push(stack, in);
+    char * pch;
+    while(fgets(buff, 255, inputStream)) {
+      printf("%s\n", buff);
+      pch = strtok (buff," ");
+      while (pch != NULL)
+      {
+          push(&stack, pch);
+          pch = strtok (NULL, " ,.-");
+      }
     }
 
-    while (stack->top > 0) {
-      printf("%d\n", pop(stack));
+    while (stack.top > 0) {
+      printf("%s\n", pop(&stack));
     }
 
     return 0;
