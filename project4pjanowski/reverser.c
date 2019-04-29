@@ -19,6 +19,16 @@ int main(int argc, char* argv[]) {
     int o;
     char inputName[100];
     char outputName[100];
+    Stack stack;
+    FILE* inputStream;
+    FILE* output;
+
+    char in;
+    char buff[255];
+    char * pch;
+
+    stack.top = 0;
+
     while(( o = getopt (argc, argv, "i:o:h::")) != -1) {
         switch (o) {
             case 'h':
@@ -39,36 +49,23 @@ int main(int argc, char* argv[]) {
                 return 1;
         }
     }
-    // if ( !(usedI && usedO)) {
-    //     printUsage();
-    //     return 1;
-    // }
-    Stack stack;
-    // stack->top = 0;
-    stack.top = 0;
-    FILE* inputStream;
-    FILE* output;
     output = fopen(outputName, "w");
     inputStream = fopen(inputName, "r");
-    // if (inputStream == NULL) {
-    //   perror("fopen()");
-    //   return EXIT_FAILURE;
-    // }
-    char in;
-    char buff[255];
-    char * pch;
-    while(fgets(buff, 255, inputStream)) {
+    while(fgets(buff, 80, inputStream) != NULL) {
       printf("%s\n", buff);
-      pch = strtok (buff," ");
+      pch = strtok (buff, " ");
+
       while (pch != NULL)
-      {
-          push(&stack, pch);
-          pch = strtok (NULL, " ,.-");
+      { 
+          push(&stack, strdup(pch));
+          pch = strtok (NULL, " \n");
       }
     }
 
+    printf("Starting to print backwards\n");
     while (stack.top > 0) {
-      printf("%s\n", pop(&stack));
+        char *ret = pop(&stack);
+        printf("%s\n", ret);
     }
 
     return 0;

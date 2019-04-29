@@ -12,5 +12,9 @@ typedef struct Stack {
 
 char* pop(struct Stack* stack);
 
+void popAll(struct Stack* stack);
+
 void push(struct Stack* stack, char *pushee);
+
+int isInStack(struct Stack* stack, char *pushee);
 #endif //CS2750_STACK_H
