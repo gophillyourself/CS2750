@@ -1,6 +1,8 @@
 //
 // Created by Phill Janowski on 2019-04-18.
-//
+// CS2750
+// Reads an input file, places text on a stack seperated by a space
+// outputs to the specified output file in reverse
 #include "stack.h"
 #include <stdio.h>
 #include <stdbool.h>
@@ -28,7 +30,7 @@ int main(int argc, char* argv[]) {
     char * pch;
 
     stack.top = 0;
-
+    //loop over options
     while(( o = getopt (argc, argv, "i:o:h::")) != -1) {
         switch (o) {
             case 'h':
@@ -49,29 +51,34 @@ int main(int argc, char* argv[]) {
                 return 1;
         }
     }
+
+    //open read and write file streams
     output = fopen(outputName, "w");
     inputStream = fopen(inputName, "r");
+    //loop till EOF 
     while(fgets(buff, 80, inputStream) != NULL) {
       printf("%s\n", buff);
       pch = strtok (buff, " ");
 
       while (pch != NULL)
       { 
+	  //creates a new pointer to the string or else the strings in the stack get over written
           push(&stack, strdup(pch));
           pch = strtok (NULL, " \n");
       }
+      //add a new line delimiter to keep track of the file lines
+      push(&stack, "\n");
     }
-
-    printf("Starting to print backwards\n");
+	
+    //loop over stack starting at the top to output to stdio and the defined output file
     while (stack.top > 0) {
         char *ret = pop(&stack);
-        printf("%s\n", ret);
+	fputs(ret, output);
+	fputs(" ", output);
+        printf("%s ", ret);
     }
-
+    //close everything
+    fclose(output);
+    fclose(inputStream);
     return 0;
 }
-
-//fd = fopen(name, mode);
-//FILE *fd is file descriptor
-//mode = w, r, a, r+, w+, a+
-//returns a pointer to the stream

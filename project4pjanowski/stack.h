@@ -1,7 +1,7 @@
 //
 // Created by Phill Janowski on 2019-04-18.
-//
-
+// CS2750 
+// Header and declaration for stack struct
 #ifndef CS2750_STACK_H
 #define CS2750_STACK_H
 
