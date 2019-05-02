@@ -1,0 +1,143 @@
+\n newline
+\t tab
+\b backspace
+
+atof(str) tring to double
+strtod(str, ptr) string to double ptr
+atol string to int
+strol(str, ptr, base) string to int of base 0 to 36
+scanf(“%d”,&x);   reads an integer
+scanf(“%f”,&f);    reads a float
+scanf(“%s”,s);    reads a string, NO &
+strcat(s1,s2) Appends a copy of string s2 to end of string s1
+strncat(s1,s2,n) Appends at most n characters from s2 to s1
+strcpy(s1,s2) Copies s2 to s1 until it reaches NULL character
+strncpy(s1,s2,n) Copies s2 to s1 until NULL or after n characters
+strdup(s) Duplicates string and returns pointer to new str
+strlen(s) Returns number of characters in s(non-null)
+strcmp(s1,s2) Compare strings s1 and s2
+strncmp(s1,s2,n) Compare first n characters of s1 and s2
+strcasecmp(s1,s2) Same as strcmp but ignore case of characters
+strncasecmp(s1,s2,n) Same as strncmp but ignore case of characters
+strchr(s,c) Returns pointer to first occ. of character c in s
+strrchr(s,c) Returns pointer to last occ. of character c in s
+strpbrk(s1,s2) Returns a pointer in s1 to first occ. of any character in s2
+strspn(s1,s2) Returns length of s1 that is entirely composed of chars from s2
+strcspn(s1,s2) Returns length of s1 that is not composed of chars from s2
+strstr(s1,s2) Returns pointer to location of substr s2 in s1
+strtok(s1,s2) Used to break up string s1 by a token in string s2
+memcpy(s1,s2,n) Copies n characters from s2 to s1
+memccpy(s1,s2,c,n) Copies characters from s2 to s1 until char c or max n
+memchr(s1,c,n) Finds c in s1 and returns location (only check max of n)
+memcmp(s1,s2,n) Compare strings up to n characters
+memset(s1,c,n) Sets first n characters in s1 to the character c
+
+//memory allocation//
+char *c;
+int SIZE = 100;
+c = malloc( SIZE * sizeof( char ) )
+
+complicated_type_t *ptr;
+ptr = ( complicated_type_t *) malloc( sizeof( complicated_type_t) );
+
+free(ptr);
+
+//multi dimensional allocation//
+int **brd = ( int ** ) malloc( sizeof( int * ) * rows);
+for (int i = 0; i < cols; i++) {
+   brd[i] = ( int * ) malloc( sizeof(int) * cols);
+}
+
+for (int i = 0; i < cols; i++) {
+   free(brd[ i ]);
+}
+free(brd);
+
+realloc( ptr,  new_size);
+
+calloc( int num, int size_in_bytes);
+Equivalent to malloc, just different format
+a = (int *) calloc( elements, sizeof( int ));
+
+//processes//
+
+pid is an int that id's a process
+pid 0 swapper
+pid 1 is parent of all processes
+pid 2 pagedaemon handles paging
+
+exec() used to run 
+called with
+
+All these arguments are of type char *, including null
+
+path must be the name of an executable program file
+
+Example of calling ls -l *.txt
+int execl( path, arg0, arg1, ..., argn, null);
+execl(“/bin/ls”, “ls”, “-l”, “*.txt”, NULL);
+returns -1 if unsuccessful
+int pid = fork();
+Parent receives PID of child
+Child’s PID and PPID are different
+Use ^Z to suspend a running process
+getpid() function lets a process get its own PID
+void exit( int status);
+Terminates process that issued it
+
+Rightmost byte of status returned as a status code
+All open file descriptors are closed
+All standard I/O streams closed and buffers flushed
+wait system call sleeps process until at least one child returns
+Called with
+int pid = wait ( int *returnstatus);
+pid is pid of child process that ended
+returnstatus is given status of exit of child process
+
+waitpid(int pid, int *status, int options)
+Waits for a particular pid or range of pids
+
+char * fgets ( char * str, int size, FILE * stream );
+FILE * stream = fopen ("file name", r,w,a) read, write, append
+r+ read or write
+w+ is write but can also read
+a+can append or create new file and can also read
+
+int fputs( char *str, FILE *fd);
+
+//Writing to a binary file//
+fread( char * buf_ptr, int size, int nitems, FILE * fd);
+fwrite( char * buf_ptr, int size, int nitems, FILE * fd);
+Both transfer a specified number of bytes beginning at a location in 
+memory to a file at the location specified by fd
+buf_ptr is a pointer to a buffer
+size is the number of bytes in one element of the buffer
+nitems is number of elements in the buffer
+
+int i = 19;
+FILE * fd;
+fd = fopen(“binarysequence.dat”,”w” );
+fwrite( &i, sizeof( int ), 1, fd);
+
+fprintf( fd, “%d”, number );
+fwrite( &number, sizeof( int ), 1, fd );
+
+fflush(FILE * stream) to flush the buffer
+
+
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+ipcs to check shared memory segments
+ipcrm to remove extra segments
+
+key_t thisKey = ftok(char *path, int ID);
+shm_id = shmget(key_t key, int size, int flag);
+For key_t, can use IPC_PRIVATE
+For flag we use IPC_CREAT | 0666
+shmId = shmget(IPC_PRIVATE, sizeof(int)*100,IPC_CREAT | 0666);
+shmPtr = shmat(int shmid, const void *shmaddr, int shmflag); //attatching to the new shared memory
+Remember that this returns a void pointer, so good idea to typecast it
+shmdt(shmPtr) detaches
+shmctl(shmId, IPC_RMID, NULL) deallocates
