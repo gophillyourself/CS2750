@@ -35,28 +35,17 @@ int main (int argc, char * argv[]) {
 	}
 	if (argc <= 1) {
 		number = 100;
-		numString = (char*) malloc(sizeof("100\0"));
+		numString = (char*) malloc(sizeof("100") + 1);
 		numString = "100\0";
-
 	}	
 	printf("%d\n", number);
-	int shmid = shmget ( SHMKEY, BUFF_SZ, 0777 | IPC_CREAT );
-	if (shmid == -1) {
-		fprintf(stderr, "Error in shmget\n");
-		exit (1);
-	}
+    int shmid = shmget ( SHMKEY, BUFF_SZ, 0666 | IPC_CREAT );
 
-	int * shint = ( int * ) (shmat (shmid, 0, 0));
-
-	int pid = fork();
-	printf("%d\n", pid);
+    int pid = fork();
+    printf("%d\n", pid);
 	// child
 	if (pid == 0) {
-		char * execArg[] = { "./worker", "-n", numString};
-		
-		for (int i = 0; i < sizeof(execArg); i++) {
-			printf("[master] arg %d = %s\n", i, execArg[i]);
-		}
+		char * execArg[] = { "./worker", "-n", numString, NULL };
 
 		int execed = execvp(execArg[0], execArg);
 		if(execed == -1) {
@@ -64,23 +53,29 @@ int main (int argc, char * argv[]) {
 			exit(1);
 		}
 	} else {
+        printf("[master] shmid = %d\n", shmid);
+        if (shmid == -1) {
+            fprintf(stderr, "Error in shmget\n");
+            exit (1);
+        }
+
+        int * pint = (int * ) (shmat (shmid, 0, 0));
 		printf("about to wait\n");
-		printf("shint = %d\n", shint);
+		printf("pint = %d\n", pint);
 		printf("number = %d\n", number);
 		
 		wait(NULL);
-		if( shint != number) {
+		if( pint != number) {
 			printf("the shared memory copy didn't work\n");
-			printf("shint = %d\n", shint);
+			printf("pint = %d\n", pint);
 			printf("number = %d\n", number);
 		}
 		
 		printf("done\n");
 
-		printf("Inputted number = %d\n", shint);
-		shint = 0;
-		
-		shmdt(shint);
+		printf("Inputted number = %d\n", pint);
+
+		shmdt(pint);
 		shmctl(shmid, IPC_RMID, NULL);
 	}
 	return 0;

@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
-#include<sys/wait.h> 
+#include <sys/wait.h>
 
 #define SHMKEY 1392
 #define BUFF_SZ sizeof ( int )
@@ -34,14 +34,18 @@ int main (int argc, char * argv[]) {
 		}	
 	}
 
-	int shmid = shmget ( SHMKEY, BUFF_SZ, 0777 | IPC_CREAT );
-	if (shmid == -1) {
+	int shmid = shmget ( SHMKEY, BUFF_SZ, 0666 );
+    printf("[worker] shmid = %d\n", shmid);
+    if (shmid == -1) {
 		fprintf(stderr, "Error in shmget\n");
 		exit (1);
 	}
 
-	int * shint = ( int * ) (shmat (shmid, 0, 0));
-	shint = number;
-	printf("hi from the worker shint = %d\n", shint);
-	return 0;	
+	int * cint = (int * ) (shmat (shmid, 0, 0));
+    printf("[worker] cint = %d\n", cint);
+	printf("[worker] before cint = %d\n", cint);
+    cint = number;
+	printf("[worker] after cint = %d\n", cint);
+    shmdt(cint);
+    return 0;
 }
