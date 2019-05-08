@@ -8,7 +8,8 @@
 #include <stdlib.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
-#include<sys/wait.h> 
+#include <sys/wait.h> 
+#include <string.h>
 
 #define SHMKEY 1392
 #define BUFF_SZ sizeof ( int )
@@ -18,6 +19,7 @@ int main (int argc, char * argv[]) {
 	int * number;
 	char * numString;
 	int o;
+	printf("starting\n");
 	while(( o = getopt (argc, argv, "n:h:")) != -1) {
 		switch (o) {
 			case 'h':
@@ -25,6 +27,7 @@ int main (int argc, char * argv[]) {
 				exit (0);
 			
 			case 'n':
+				numString = (char*) malloc(sizeof(optarg));
 				numString = optarg;
 				number = atoi(optarg);
 				break;
@@ -32,6 +35,9 @@ int main (int argc, char * argv[]) {
 	}
 	if (argc <= 1) {
 		number = 100;
+		numString = (char*) malloc(sizeof("100\0"));
+		numString = "100\0";
+
 	}	
 	printf("%d\n", number);
 	int shmid = shmget ( SHMKEY, BUFF_SZ, 0777 | IPC_CREAT );
@@ -47,6 +53,11 @@ int main (int argc, char * argv[]) {
 	// child
 	if (pid == 0) {
 		char * execArg[] = { "./worker", "-n", numString};
+		
+		for (int i = 0; i < sizeof(execArg); i++) {
+			printf("[master] arg %d = %s\n", i, execArg[i]);
+		}
+
 		int execed = execvp(execArg[0], execArg);
 		if(execed == -1) {
 			perror("execvp failed\n");

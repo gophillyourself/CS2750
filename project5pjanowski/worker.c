@@ -15,9 +15,13 @@
 
 int main (int argc, char * argv[]) { 
 	
-	char usage[] = "Usage: master [-h | [-n number]]\n-h | displays this message\n-n | number to share with worker, defaults to 100";
+	char usage[] = "Usage: worker [-h | [-n number]]\n-h | displays this message\n-n | number to share with worker, defaults to 100";
 	int * number;
 	int o;
+	for (int i = 0; i < argc; i++) {
+		printf("[worker] arg %d = %s\n", i, argv[i]);
+	}
+	
 	while(( o = getopt (argc, argv, "n:h:")) != -1) {
 		switch (o) {
 			case 'h':
