@@ -1,0 +1,130 @@
+##makefile stuff##
+
+target:   dep1 dep2 dep3 ...     # Dependency line
+            cmd                  # Command line
+
+example: called with make -f makefile_rander
+
+makefile_rander
+
+rander: rander.o twister.o
+               g++ -o  rander rander.o twister.o
+rander.o: rander.cpp rander.h
+              g++ -g -c rander.cpp
+twister.o: twister.cpp twister.h
+              g++ -g -c twister.cpp
+
+makefile: called with make
+
+CC           = g++
+CFLAGS       = -g
+TARGET       = rander
+OBJS         = rander.o twister.o linear.o
+$(TARGET): $(OBJS)
+               $(CC) -o $(TARGET) $(OBJ)
+rander.o: rander.cpp rander.h
+              $(CC) $(CFLAGS) -c rander.cpp
+twister.o: twister.cpp twister.h
+              $(CC) $(CFLAGS) -c twister.cpp
+linear.o: linear.cpp linear.h
+              $(CC) $(CFLAGS) -c linear.cpp
+clean:
+              /bin/rm -f *.o $(TARGET)
+
+#!/bin/bash
+
+echo "just parens"
+var="Hello"
+echo $var
+(var="Hi"; echo $var); echo $var
+
+echo 
+echo "with export"
+var="hi"
+export var
+echo $var
+(echo $var; var="Hello"; echo $var); echo $var
+
+echo
+echo "curly braces"
+var="Hi"
+export var
+echo $var
+{ echo $var; var="Hello"; echo $var;}; echo $var
+
+just parens
+Hello
+Hi
+Hello
+
+with export
+hi
+hi
+Hello
+hi
+
+curly braces
+Hi
+Hi
+Hello
+Hello
+
+##general bash##
+
+$0 = command/script
+$# = number of args including script name
+$* = list all args except for script name
+$? = last exit status
+
+##switch case##
+
+case $str in
+	one)
+	echo 1;;
+	two)
+	echo 2 ;;
+	five)
+	echo 5;;
+esac
+
+if [[ $str == "one" ]]; then
+	echo 1
+elif [[ $str =="two" ]]; then
+	echo 2
+else 
+	echo 0
+fi
+
+##file path stuff##
+
+if [[ -d $PASSED ]]; then
+    echo "$PASSED is a directory"
+elif [[ -f $PASSED ]]; then
+    echo "$PASSED is a file"
+else
+    echo "$PASSED is not valid"
+    exit 1
+fi
+
+##for loop##
+ 
+for file check
+
+for f in *; do
+  echo "File -> $f"
+done
+
+##sed##
+
+from a file named Cars
+this will replace all upper case letters with lower case letters
+replace all commas with a tab
+put the results into Result.txt
+
+sed 's/[A-Z]/[a-z]/g' Cars | sed 's/,/\t/g' > Results.txt
+
+$ = end of line
+^ = start of line
+[^...] not containing
+[...] containing
+
