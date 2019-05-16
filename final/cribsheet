@@ -128,3 +128,18 @@ $ = end of line
 [^...] not containing
 [...] containing
 
+##other##
+
+extern int a;
+
+a doesn't need to be initialized in its main file, the compiler will expect it to be declared in a header or something
+
+malloc
+
+int *arr;
+arr = malloc ( <size> * sizeof(int));
+
+malloc for struct array
+
+Structtype **data;
+data = (Struct**) malloc(sizeof(struct Structtype) * 5);
